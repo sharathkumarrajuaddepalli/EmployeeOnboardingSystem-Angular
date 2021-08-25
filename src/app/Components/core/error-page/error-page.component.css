@@ -1,0 +1,25 @@
+.button-group-back{
+  cursor: pointer;
+    color: white;
+    padding: 12px 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    background-color: #346751;
+    border-radius: 8px;
+    width: 116px;
+    height: 44px;
+}
+
+.button-group-back:hover{
+  cursor: pointer;
+  color: white;
+  padding: 12px 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  background-color: #346751;
+  border-radius: 8px;
+  width: 116px;
+  height: 44px;
+}

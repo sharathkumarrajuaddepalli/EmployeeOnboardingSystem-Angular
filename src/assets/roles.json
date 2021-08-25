@@ -1,0 +1,16 @@
+{
+    "sets":[
+        { 
+            "id": "Software Engineer",
+            "role": "Software Engineer" 
+        },
+        { 
+            "id": "Senior Software Engineer", 
+            "role": "Senior Software Engineer"
+        },
+        { 
+            "id": "Associate Software Engineer",
+            "role": "Associate Software Engineer" 
+        }
+        ]
+}

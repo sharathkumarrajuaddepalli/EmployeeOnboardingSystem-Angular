@@ -1,0 +1,272 @@
+<div>
+    <form style="margin-left: 250px;" [formGroup]="addressDetailsForm">
+        <div [ngClass]="{'tab': current === 0}">
+            <div class="wholefieldset1">
+                <h3 id="basictag" style="background-color:#2F5D62 ;height:50px;">
+                    <h3 id="one">Present Address</h3>
+                </h3>
+                <fieldset id="field1">
+                    <div class="row">
+                        <ng-container formGroupName="presentAddress">
+                            <div class="column1">
+                                <div class="container">
+                                    <label for="presentflatname"><b>Building No/Flat Name <span class="mandatory-asterick">*</span></b></label>
+                                    <input type="text" placeholder="Enter Building No /Flat Name" name="presentflatname"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('presentAddress.flatName')?.errors?.required}"
+                                        formControlName="flatName" autofocus>
+                                </div>
+                                <span
+                                    *ngIf="addressDetailsForm.get('presentAddress.flatName')?.errors?.required && submitted "
+                                    class="invalid-feedback">Present Flat name is required </span>
+
+
+                                <div class="container">
+                                    <label for="presentstreetname"><b>Street <span class="mandatory-asterick">*</span></b></label>
+                                    <input type="text" placeholder="Enter Street" name="presentstreetname"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('presentAddress.streetName')?.errors?.required}"
+                                        formControlName="streetName">
+                                </div>
+
+                                <span
+                                    *ngIf="addressDetailsForm.get('presentAddress.streetName')?.errors?.required && submitted "
+                                    class="invalid-feedback">Present Street Name is required</span>
+
+                                <div class="container">
+                                    <label for="presentarea"><b>Area <span class="mandatory-asterick">*</span></b></label>
+                                    <input type="text" placeholder="Area" name="presentarea" formControlName="area"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('presentAddress.area')?.errors?.required}">
+                                </div>
+
+                                <span
+                                    *ngIf="addressDetailsForm.get('presentAddress.area')?.errors?.required && submitted "
+                                    class="invalid-feedback">Present Area is required</span>
+
+
+                                <div class="container">
+                                    <label for="presentcountry"><b>Country <span class="mandatory-asterick">*</span></b></label>
+                                    <select name="presentcountry" class="countries" id="countryId"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('presentAddress.country')?.errors?.required}"
+                                        formControlName="country" #mySelect
+                                        (change)='onPresentChangeCountry(mySelect.value,true)'>
+
+                                        <option value="">Select country...</option>
+                                        <option [ngClass]="{'none':addressDetailsForm.get('presentAddress.country')!=null}" *ngIf="addressDetailsForm.get('presentAddress.country')!=null" [selected]="addressDetailsForm.get('presentAddress.country')!=null" >{{addressDetailsForm.get('presentAddress.country')?.value}}</option>
+                                        <option *ngFor="let country of presentCountryInfo;let i = index" value="{{i}}">
+                                            {{country.CountryName}}</option>
+                                    </select>
+                                </div>
+                                <span
+                                    *ngIf="addressDetailsForm.get('presentAddress.country')?.errors?.required && submitted "
+                                    class="invalid-feedback">Present Country is required</span>
+
+                            </div>
+                            
+                            <div class="column2">
+                                <div class="container">
+                                    <label for="presentstate"><b>State <span class="mandatory-asterick">*</span></b></label>
+
+                                    <select name="presentstate" class="countries" id="presentstate" formControlName="state" #myPresentState
+                                        (ngModelChange)='onChangeState(myPresentState.value,true)' 
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('presentAddress.state')?.errors?.required}">
+                                        <option value="">Select state...</option>
+                                        <option *ngIf="presetPresentData" [value]="addressDetailsForm.get('presentAddress.state')?.value" >{{addressDetailsForm.get('presentAddress.state')?.value}}</option>
+                                       
+                                        <option *ngFor="let state of presentStateInfo;let i = index" value="{{i}}">
+                                            {{state.StateName}}</option>
+                                    </select>
+                                </div>
+                                <span
+                                    *ngIf="addressDetailsForm.get('presentAddress.state')?.errors?.required && submitted "
+                                    class="invalid-feedback">Present State is required</span>
+
+                                <div class="container">
+                                    <label for="presentcity"><b>District <span class="mandatory-asterick">*</span></b></label>
+                                    <input type="text" placeholder="City" name="presentcity" id="presentcity"
+                                        formControlName="city"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('presentAddress.city')?.errors?.required}">
+
+                                </div>
+                                <span
+                                    *ngIf="addressDetailsForm.get('presentAddress.city')?.errors?.required && submitted "
+                                    class="invalid-feedback">Present City is required</span>
+
+                                <div class="container">
+                                    <label for="presentmapcoordinates"><b>Map Coordinates <span class="mandatory-asterick">*</span></b></label>
+                                    <input type="text" placeholder="Enter Map Coordinates" id="presentmapcoordinates"
+                                        formControlName="mapCoordinates" id="presentmapcoordinates"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('presentAddress.mapCoordinates')?.errors?.required}"
+                                        style="width: 350px;">
+                                </div>
+
+                                <span
+                                    *ngIf="addressDetailsForm.get('presentAddress.mapCoordinates')?.errors?.required && submitted "
+                                    class="invalid-feedback">Present map coordinates is required </span>
+
+
+                                <div class="container">
+                                    <label for="presentpincode"><b>Pincode <span class="mandatory-asterick">*</span></b></label>
+                                    <input type="text" placeholder="Pincode" name="presentpincode" id="presentpincode"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('presentAddress.pinCode')?.errors?.required || addressDetailsForm.get('addressDetails.presentAddress.pinCode')?.errors?.pattern}"
+                                        formControlName="pinCode">
+                                </div>
+
+                                <span
+                                    *ngIf="addressDetailsForm.get('presentAddress.pinCode')?.errors?.required && submitted "
+                                    class="invalid-feedback"> Pincode is required </span>
+                                <span *ngIf="addressDetailsForm.get('presentAddress.pinCode')?.errors?.pattern"
+                                    class="invalid-feedback">Pincode should contain numbers only</span>
+
+
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="container">
+                        <input type="checkbox" value="" class="checkboxstyle" [formControl]="isSameAddressControl">
+
+                        <b class="acknowledgement" style="width: 800px;float: left;">Select this Checkbox if the
+                            present
+                            and permanent addresses are
+                            same</b>
+                    </div>
+
+
+                    <h3 class="sub-division">
+                        <h3 id="three">Permanent Address</h3>
+                    </h3>
+                    <br>
+                    <div class="row">
+                        <ng-container formGroupName='permanentAddress'>
+                            <div class="column1">
+
+                                <div class="container">
+                                    <label for="permanentflatname"><b>Building No/Flat Name <span class="mandatory-asterick">*</span></b></label>
+                                    <input type="text" placeholder="Enter Building No /Flat Name"
+                                        name="permanentflatname"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('permanentAddress.flatName')?.errors?.required}"
+                                        id="permanentflatname" formControlName="flatName">
+                                </div>
+
+                                <span
+                                    *ngIf="addressDetailsForm.get('permanentAddress.flatName')?.errors?.required && submitted "
+                                    class="invalid-feedback">Permanent Flat name is required </span>
+
+                                <div class="container">
+                                    <label for="permanentstreetname"><b>Street <span class="mandatory-asterick">*</span></b></label>
+                                    <input type="text" placeholder="Enter Street" name="permanentstreetname"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('permanentAddress.streetName')?.errors?.required}"
+                                        id="permanentstreetname" formControlName="streetName">
+                                </div>
+                                <span
+                                    *ngIf="addressDetailsForm.get('permanentAddress.streetName')?.errors?.required && submitted "
+                                    class="invalid-feedback">Permanent Street name is required </span>
+
+
+                                <div class="container">
+                                    <label for="permanentarea"><b>Area <span class="mandatory-asterick">*</span></b></label>
+                                    <input type="text" placeholder="Area" name="permanentarea" id="permanentarea"
+                                        formControlName="area"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('permanentAddress.area')?.errors?.required}">
+                                </div>
+                                <span
+                                    *ngIf="addressDetailsForm.get('permanentAddress.area')?.errors?.required && submitted "
+                                    class="invalid-feedback">Permanent area is required </span>
+
+
+
+                                <div class="container">
+                                    <label for="permanentcountry"><b>Country <span class="mandatory-asterick">*</span></b></label>
+                                    <select name="permanentcountry" formControlName="country" class="countries"
+                                        id="countryIdpermanent" #myCountrypermanent
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('permanentAddress.country')?.errors?.required}"
+                                        (ngModelChange)='onPermanentChangeCountry(myCountrypermanent.value,false)'>
+                                        <option value="">Select country...</option>
+                                        <option [ngClass]="{'none':addressDetailsForm.get('permanentAddress.country')!=null}" *ngIf="addressDetailsForm.get('permanentAddress.country')!=null"  [selected]="addressDetailsForm.get('permanentAddress.country')!=null">{{addressDetailsForm.get('permanentAddress.country')?.value}}</option>
+                                        <option *ngFor="let country of permanentCountryInfo;let i = index" value="{{i}}">
+                                            {{country.CountryName}}</option>
+                                    </select>
+
+                                </div>
+                                <span
+                                    *ngIf="addressDetailsForm.get('permanentAddress.country')?.errors?.required && submitted "
+                                    class="invalid-feedback">Permanent Country is required </span>
+
+                            </div>
+
+                            <div class="column2">
+                                <div class="container">
+                                    <label for="permanentstate"><b>State <span class="mandatory-asterick">*</span></b></label>
+                                    <select name="permanentstate" class="countries" id="permanentstate" formControlName="state" #myPermanentState
+                                        (ngModelChange)='onChangeState(myPermanentState.value,false)'
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('permanentAddress.state')?.errors?.required}">
+                                        <option  value="">Select state...</option>
+                                        <option *ngIf="presetPermanentData" [value]="addressDetailsForm.get('permanentAddress.state')?.value" >{{addressDetailsForm.get('permanentAddress.state')?.value}}</option>
+                                        <option *ngFor="let state of permanentStateInfo ;let i = index" value="{{i}}">
+                                            {{state.StateName}}</option>
+                                    </select>
+                                
+                                    <br />
+
+
+
+                                </div>
+                                <span
+                                    *ngIf="addressDetailsForm.get('permanentAddress.state')?.errors?.required && submitted"
+                                    class="invalid-feedback">Permanent State is required
+                                </span>
+                                <div class="container">
+                                    <label for="permanentcity"><b>District <span class="mandatory-asterick">*</span></b></label>
+                                    <input type="text" placeholder="City" name="permanentcity" id="permanentcity"
+                                        formControlName="city"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('permanentAddress.city')?.errors?.required}">
+                                </div>
+                                <span
+                                    *ngIf="addressDetailsForm.get('permanentAddress.city')?.errors?.required && submitted "
+                                    class="invalid-feedback">Permanent City is required</span>
+
+                                <div class="container">
+                                    <label for="permanentmapcoordinates"><b>Map Coordinates <span class="mandatory-asterick">*</span></b></label>
+                                    <input type="text" placeholder="Enter Map Coordinates"
+                                        name="permanentmapcoordinates"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('permanentAddress.mapCoordinates')?.errors?.required}"
+                                        id="permanentmapcoordinates" formControlName="mapCoordinates"
+                                        style="width: 350px;">
+                                </div>
+
+                                <span
+                                    *ngIf="addressDetailsForm.get('permanentAddress.mapCoordinates')?.errors?.required && submitted "
+                                    class="invalid-feedback">Permanent map coordinates is required </span>
+
+                                <div class="container">
+                                    <label for="permanentpincode"><b>Pincode <span class="mandatory-asterick">*</span></b></label>
+                                    <input type="text" placeholder="Pincode" name="permanentpincode"
+                                        id="permanentpincode" formControlName="pinCode"
+                                        [ngClass]="{'alert':submitted && addressDetailsForm.get('permanentAddress.pinCode')?.errors?.required || addressDetailsForm.get('permanentAddress.pinCode')?.errors?.pattern}">
+                                </div>
+
+                                <span
+                                    *ngIf="addressDetailsForm.get('permanentAddress.pinCode')?.errors?.required && submitted "
+                                    class="invalid-feedback">Permanent pincode is required </span>
+                                <span
+                                    *ngIf="addressDetailsForm.get('permanentAddress.pinCode')?.errors?.pattern && submitted "
+                                    class="invalid-feedback">Pincode should contain digits only </span>
+                            </div>
+                        </ng-container>
+                    </div>
+
+
+                </fieldset>
+
+
+
+            </div>
+            <div class="secondbutton">
+                <button type="button" class="previousbtn" id="prevBtn" (click)="previous()">Previous</button>
+                <button type="button" class="submitbtn forward" id="submitBtn" (click)="submitForm()">Submit</button>
+                <button type="button" class="submitbtn forward" id="saveBtn" (click)="saveDraft()">Save</button>
+
+            </div>
+        </div>
+    </form>
+    <app-modals *ngIf="notify || draft" (closeModalEvent)="closeNotificationModal($event)" id="usernotified"
+        [content]="notifyText"></app-modals>
+</div>

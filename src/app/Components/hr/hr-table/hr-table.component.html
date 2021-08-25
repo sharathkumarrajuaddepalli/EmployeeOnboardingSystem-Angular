@@ -1,0 +1,81 @@
+<div>
+  <app-header></app-header>
+  <div id="interface">
+    <div class="heading-2">
+      <h1>HR Dashboard</h1>
+    </div>
+    <div id="invitenew">
+      <button id="openInvite" class="button-group absolute-right" (click)="openInvite()" data-target="#createinvite">Create
+        Invite</button>
+    </div>
+    <div id="request" style="margin: 85px 14px">
+      <table id="requesttable" datatable  [dtTrigger]="dtTrigger"
+        style="width: 100%;margin-top: 40px;">
+        <thead style=" height:60px; margin-top: 30px;">
+          <tr>
+            <th>Emp ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th style="width: 200px; text-align: center; background-image: none;">Actions</th>
+            <!-- style="width: 170px;" -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of employees">
+            <td>{{ employee.code }}</td>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.emailId }}</td>
+            <td>{{ employee.status }}</td>
+            <td>{{ employee.createdAt }}</td>
+            <td style="height: 50px;">
+
+              <button id="notificationModal" *ngIf="employee.status === 'Rejected' || employee.status === 'Incomplete' || (employee.status !== 'Pending' && employee.status !=='Completed')"
+                class="button-group-small" data-target="#usernotified" (click)="openNotificationModal(true,employee.empId)">Notify</button>
+              <!-- <button id="editModal" *ngIf="employee.status === 'Completed'" class="button-group-small" data-target="#editaccess"
+                (click)="openNotificationModal(false,employee.empId)">Edit</button> -->
+              <button  id="viewDetails" *ngIf="employee.status !== 'Incomplete'" type="button" class="view" data-target="#empdetailsview"
+                (click)="openViewModal(employee.empId)"><i class="fa fa-eye"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-userdetailsview *ngIf=view id="userdetails" (closeDetailsView)="closeViewModal($event)"
+            (rejectReasonView)="rejectViewModal($event)" [employeeDetails]=employee></app-userdetailsview>
+      <app-modals *ngIf="notify || edit" (closeModalEvent)="closeNotification($event)" [type]="error" id="usernotified"
+        [content]="notifyText"></app-modals>
+      <app-inviteform *ngIf=invite (closeInviteEvent)="closeInvite($event)" id="inviteform" [open]=invite></app-inviteform>
+    
+
+    </div>
+    <dialog id="myModal" *ngIf=reject class="modal fades">
+      <div class="modal-head">
+        <h4 class="modal-top alert-text">Reason For Rejection</h4>
+        <button id="closeReject"  type="button" class="modal-close-button" (click)="closeRejectModal()">&times;</button>
+      </div>
+      <div class="modal-content">
+        <div class="modal-body">
+          <form [formGroup]="reasonForm" (ngSubmit)="submitRejectForm()" class="formclass">
+            <div class="flex-form">
+              <textarea type="text" name="reason" rows="4" cols="40" formControlName="reason"
+                [ngClass]="{'alert':isSubmitted && this.reason?.errors?.required}"
+                placeholder="Reason for Rejection..."></textarea>
+              <button id="submitForm" type="submit" class="button-group-modal"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+            </div>
+            <span class="invalid-feedback" *ngIf="isSubmitted && this.reason?.errors?.required">
+              <sup>*</sup>reason is required
+            </span>
+
+          </form>
+          <div class="modal-foot-center">
+            <button type="button" id="redirectToView" class="button-group-reject" (click)="backToViewModal()">Back</button>
+          </div>
+
+        </div>
+
+      </div>
+    </dialog>
+    <div>
+  </div>
+  </div>

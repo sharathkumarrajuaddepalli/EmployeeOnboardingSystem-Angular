@@ -1,0 +1,33 @@
+<div>
+  <div class="bgsetup">
+    <img src="../../../assets/images/listerlogo.png" alt="Lister Technologies" class="logo">
+    <div class="formdiv">
+      <form class="formclass" [formGroup]="loginForm" (ngSubmit)="loginMethod()">
+        <div class="container">
+          <label class="control-label" for="email">Username:</label>
+          <input class="inputdata" type="text" id="username" formControlName="userName" placeholder="Username">
+        </div>
+        <div class="invalid-feedback" *ngIf="isSubmitted && userName?.errors?.required">
+          <sup>*</sup>Username is required
+        </div>
+        <div class="invalid-feedback" *ngIf="isSubmitted && userName?.errors?.email">
+          <sup>*</sup>Please enter a valid username
+        </div>
+
+        <div class="container">
+          <label class="control-label" for="email">Password:</label>
+          <input class="inputdata" type="password" id="Password" placeholder="Password"
+            formControlName="password"><br />
+        </div>
+        <div class="invalid-feedback" *ngIf="isSubmitted && password?.errors?.required">
+          <sup>*</sup>Password is required
+        </div>
+        <div class="invalid-feedback" *ngIf="isSubmitted && password?.errors?.pattern || password?.errors?.minlength ">
+          <sup>*</sup>Please enter a valid password
+        </div>
+        <br />
+        <button class="button-group" type="submit" id="myBtn">Login</button>
+      </form>
+    </div>
+  </div>
+</div>

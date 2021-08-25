@@ -1,0 +1,68 @@
+<div id="myModal" [ngClass]="{'modal fades': open}">
+  <div class="modal-head">
+    <h4 class="modal-top alert-text">Create Invite</h4>
+    <button type="button" class="modal-close-button" (click)="closeInvite()">&times;</button>
+  </div>
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="invalid-feedback" *ngIf="!isLoaded" style="margin-left: 250px;" >
+       Data Loading failed!! Retry!!
+      </div>
+      <form [formGroup]="inviteForm" *ngIf="isLoaded" (ngSubmit)="createInvite()" class="form-class">
+        <div class="form-elements">
+          <div class="container">
+            <label for="name">Name:</label>
+            <input type="text" [ngClass]="{'alert':isSubmitted && name?.errors?.required}" formControlName="name"
+              id="username" name="username" placeholder="Name" autofocus>
+          </div>
+          <div class="invalid-feedback" *ngIf="isSubmitted && name?.errors?.required">
+            <sup>*</sup>Name is required
+          </div>
+          <div class="container">
+            <label for="email">Email:</label>
+            <input type="email" [ngClass]="{'alert':isSubmitted && email?.errors?.required || email?.errors?.email}"
+              id="Email" name="Email" formControlName="email" placeholder="Email">
+          </div>
+          <div class="invalid-feedback" *ngIf="isSubmitted && email?.errors?.required">
+            <sup>*</sup>Email is required
+          </div>
+          <div class="invalid-feedback" *ngIf="isSubmitted && email?.errors?.email">
+            <sup>*</sup>please enter a valid email for the user
+          </div>
+
+          <div class="container-select">
+            <label for="role" style="margin-left: 113px;">Role:</label>
+            <select name="role" [ngClass]="{'alert':isSubmitted&& role?.errors?.required}" formControlName="role"
+              id="role" placeholder="Role">
+              <option value="">Select Role...</option>
+              <option *ngFor="let set of roles" [ngValue]="set.roleId">{{set.roleName}}</option>
+            </select>
+            <br />
+          </div>
+          <div class="invalid-feedback" *ngIf="isSubmitted && role?.errors?.required">
+            <sup>*</sup>role is required
+          </div>
+          <div class="container">
+            <label for="password">Password:</label>
+            <input id="Password" class="password-text"
+              [ngClass]="{'alert':isSubmitted && password?.errors?.required || password?.errors?.pattern || password?.errors?.minlength }"
+              type="password" name="Password" formControlName="password" placeholder="Password">
+          </div>
+          <div class="invalid-feedback" *ngIf="isSubmitted && password?.errors?.required">
+            <sup>*</sup>password is required
+          </div>
+          <div class="invalid-feedback"
+            *ngIf="isSubmitted && password?.errors?.pattern || password?.errors?.minlength ">
+            <sup>*</sup>please enter a valid password for the user
+          </div>
+
+          <br />
+          <button type="submit" class="button-group margin-150-left" id="myBtn">Invite</button>
+        </div>
+      </form>
+    </div>
+    <div class="modal-foot ">
+    </div>
+
+  </div>
+</div>

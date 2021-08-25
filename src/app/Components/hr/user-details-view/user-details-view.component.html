@@ -1,0 +1,89 @@
+<dialog id="myModal" class="modal fades">
+  <div class="modal-head">
+    <h4 class="modal-top alert-text">User Details View</h4>
+    <button type="button" class="xbtn" (click)="closeNotificationModal(false)">&times;</button>
+  </div>
+  <div class="modal-content">
+    <div class="modal-body form-class">
+
+      <div id="basicDetails">
+        <div style="display: flex;">
+          <h3>Basic Details</h3>
+          <button type="button" id="basicDetails" *ngIf="!basicDetails" class="view" (click)="openDetails('Basic')"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+          <button type="button" id="basicDetailsclose" *ngIf="basicDetails" class="view" (click)="openDetails('Address')"><i
+              class="fa fa-minus-circle" aria-hidden="true"></i></button>
+        </div>
+        <div [ngClass]="{'grid-col':basicDetails===true ,'tab': basicDetails===false}">
+          <div class="grid-row">
+            <p><b>Blood Group:</b> {{employeeDetails?.bloodGroup}}</p>
+            <p><b>DOB:</b> {{employeeDetails?.dob}}</p>
+            <p><b>Gender:</b> {{employeeDetails?.gender}}</p>
+          </div>
+          <div class="grid-row">
+            <p><b>SSLC:</b> {{employeeDetails?.sslc}} %</p>
+            <p><b>HSC:</b> {{employeeDetails?.hsc}} %</p>
+            <p><b>UG:</b> {{employeeDetails?.ug}} CGPA</p>
+          </div>
+          <div class="grid-row-2">
+            <p><b>Father Name:</b> {{employeeDetails?.fatherName}}</p>
+            <p><b>Mother Name:</b> {{employeeDetails?.motherName}}</p>
+          </div>
+          <div class="grid-row-2">
+            <p><b>Mobile:</b> {{employeeDetails?.phoneNumber}}</p>
+            <p><b>Aadhar:</b> {{employeeDetails?.aadharNumber}}</p>
+          </div>
+          <hr />
+          <h4 class="sub-heading">Emergency Contact</h4>
+          <div class="grid-row">
+            <p><b>Name:</b> {{employeeDetails?.emergencyContactName}}</p>
+            <p><b>Relation:</b> {{employeeDetails?.emergencyContactRelation}}</p>
+            <p><b>Contact:</b> {{employeeDetails?.emergencyContactNumber}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="addressDetails">
+        <div style="display: flex;">
+          <h3>Address Details</h3>
+          <button type="button" id="addressDetails" *ngIf="!addressDetails" class="view" (click)="openDetails('Address')"><i
+              class="fa fa-plus-circle" aria-hidden="true"></i></button>
+          <button type="button" id="addressDetailsClose" *ngIf="addressDetails" class="view" (click)="openDetails('Basic')"><i
+              class="fa fa-minus-circle" aria-hidden="true"></i></button>
+        </div>
+
+
+        <div *ngFor="let address of employeeDetails?.addressList;"  [ngClass]="{'grid-col':addressDetails===true ,'tab': addressDetails===false}">
+          <h4 class="sub-heading">{{address.type}} Address</h4>
+          <div class="grid-row">
+            <p><b>Building No/Flat Name:</b> {{address.flatNumber}}</p>
+            <p><b>Street:</b> {{address.streetName}}</p>
+            <p><b>Area:</b> {{address.area}}</p>
+          </div>
+          <div class="grid-row">
+            <p><b>City:</b> {{address.city}}</p>
+            <p><b>State:</b> {{address.state}}</p>
+            <p><b>Country:</b> {{address.country}}</p>
+          </div>
+          <div class="grid-row-2">
+            <p><b>Map:</b> {{address.mapCoordinates}}</p>
+            <p><b>Pincode:</b> {{address.pincode}}</p>
+          </div>
+          <hr />
+        </div>
+      </div>
+      <div class="flex-form" *ngIf="employeeDetails?.currentStatus==='rejected'">
+        <h4>Reason for Rejection:</h4>
+        <h4 class="invalid-feedback"> {{employeeDetails?.rejectReason}}</h4>
+      </div>
+      <div class="modal-foot-right">
+        <button type="button"
+          *ngIf="employeeDetails?.status == 'Completed' || 'Rejected' && employeeDetails?.status !== 'Pending'"
+          class="button-group" (click)="closeNotificationModal(false)">Close</button>
+        <button type="button" *ngIf="employeeDetails?.status == 'Pending'" class="button-group"
+          (click)="approveData(employeeDetails?.empId)">Approve</button>
+        <button type="button"  style="margin-right: 25px" *ngIf="employeeDetails?.status == 'Pending'" class="button-group"
+          (click)="closeNotificationModal(true)">Reject</button>
+      </div>
+    </div>
+  </div>
+</dialog>
